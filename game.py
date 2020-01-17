@@ -1,8 +1,14 @@
 from objects import *
+from graphic import *
 
-c = GameBoard()
-print(c._board)
-c.get_object_at(1, 1)
+def game_loop():
+    while(True):
+        break
+
+game_loop()
+GraphicSet.load_graphic_sets()
+board = GameBoard()
+board.generate_board()
 
 '''import time
 
