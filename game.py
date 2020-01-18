@@ -7,8 +7,62 @@ def game_loop():
 
 game_loop()
 GraphicSet.load_graphic_sets()
+Player()
 board = GameBoard()
+Map()
 board.generate_board()
+while True:
+    Frame.draw_game()
+    sign = GameController.getch()
+    if sign == 'q':
+        break
+
+    if sign == 'a':
+        Player.player.direction -= 1
+    elif sign == 'd':
+        Player.player.direction += 1
+    elif sign == 'w':
+        if Player.player.direction % 4 == 0:
+            if GameBoard.board.get_object_at(Player.player.x,
+                Player.player.y + 1) is None:
+                Player.player.y += 1
+                Frame.frame_no += 1
+        elif Player.player.direction % 4 == 1:
+            if GameBoard.board.get_object_at(Player.player.x - 1,
+                Player.player.y) is None:
+                Player.player.x -= 1
+                Frame.frame_no += 1
+        elif Player.player.direction % 4 == 2:
+            if GameBoard.board.get_object_at(Player.player.x,
+                Player.player.y - 1) is None:
+                Player.player.y -= 1
+                Frame.frame_no += 1
+        elif Player.player.direction % 4 == 3:
+            if GameBoard.board.get_object_at(Player.player.x + 1,
+                Player.player.y) is None:
+                Player.player.x += 1
+                Frame.frame_no += 1
+    elif sign == 's':
+        if Player.player.direction % 4 == 2:
+            if GameBoard.board.get_object_at(Player.player.x,
+                Player.player.y + 1) is None:
+                Player.player.y += 1
+                Frame.frame_no += 1
+        elif Player.player.direction % 4 == 3:
+            if GameBoard.board.get_object_at(Player.player.x - 1,
+                Player.player.y) is None:
+                Player.player.x -= 1
+                Frame.frame_no += 1
+        elif Player.player.direction % 4 == 0:
+            if GameBoard.board.get_object_at(Player.player.x,
+                Player.player.y - 1) is None:
+                Player.player.y -= 1
+                Frame.frame_no += 1
+        elif Player.player.direction % 4 == 1:
+            if GameBoard.board.get_object_at(Player.player.x + 1,
+                Player.player.y) is None:
+                Player.player.x += 1
+                Frame.frame_no += 1
 
 '''import time
 
