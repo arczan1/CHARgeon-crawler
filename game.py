@@ -22,13 +22,31 @@ def fight():
     Frame.draw_game(GraphicSet.fight_box[1])
     time.sleep(1)
     while(True):
-        pos_x = random.randint(0, 49)
+        pos_x = random.randint(2, 47)
         pos_y = random.randint(0, 5)
         direction = random.randint(0, 3)
         direction_signs = ('s', 'a', 'w', 'd',)
         bottom = [ [ ' ' for _ in range(50)] for _ in range(6) ]
         direction_arrows = ['v', '<', '^', '>',]
+
+        extras = ('u', 'd', 'p', 'c', )
+        for _ in range(GameController.lvl):
+            bottom[random.randint(0,5)][random.randint(2, 47)] = extras[random.randint(0, len(extras)-1)]
         bottom[pos_y][pos_x] = direction_arrows[direction] 
+
+        # HP bars
+        enemy_hp = (int)((player.enemy.hp/100) * 5)
+        player_hp = (int)((player.hp/player.max_hp) * 5)
+        for y in range(enemy_hp+1):
+            bottom[5-y][0] = '\u001b[31m#'
+        for y in range(player_hp+1):
+            bottom[5-y][49] = '\u001b[35m#'
+
+        for y in range(6):
+            bottom[y][1] = '\u001b[37m|'
+            bottom[y][48] = '\u001b[37m|'
+
+
         Frame.draw_game(bottom)
         start = time.time() 
         sign = GameController.getch()
@@ -169,6 +187,9 @@ GameBoard()
 Map()
 Map.map.tab[Player.player.y][Player.player.x] = ' '
 GameBoard.board.generate_board()
+with open('./graphics/manual.txt') as file:
+    print(file.read())
+GameController.getch()
 game_loop()
 
 '''import time

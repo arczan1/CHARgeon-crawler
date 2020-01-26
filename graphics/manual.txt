@@ -1,0 +1,29 @@
++--------------------------------------------------------------------------+
+|                                                                          |
+|                     Witaj w CHARgeon-crawel!                             |
+|                                                                          |
+|   W grze tej będziesz przemierzał kolejne poziomy lochów                 |
+|                                                                          |
+|   Twoim celem jest znajdowanie źółtych portali                           |
+|                                                                          |
+|   Na swojej drodze spotkasz czerwone golemy, są one bardzo               |
+|   agresywne i rozpoczną z tobą walkę jeżeli tylko do nich podejdziesz    |
+|                                                                          |
+|   Walka polega na jak najszybszym wybieraniu kierunków pokazanych przez  |
+|   strzałki na ekranie walki:                                             |
+|   +------------------------------------------------+                     |
+|   | |             9                              | |                     |
+|   | |                                 7          | |                     |
+|   | |                       >-----(PRAWO D)      | |                     |
+|   | |                  #                         | |                     |
+|   | |                                            | |                     |
+|   | |                                            | |                     |
+|   +------------------------------------------------+                     |
+|   Jeżeli zareagujesz dostatecznie szybko to uderzysz przeciwnika         |
+|   Jeżeli zareagujesz za wolno lub wybierzesz zły kierunek to ty oberwiesz|
+|                                                                          |
+|                                                                          |
+|                                                                          |
+|   NACIŚNI DOWOLNY KLAWISZ ABY ZACZĄĆ GRĘ:)                               |
+|                                                                          |
++--------------------------------------------------------------------------+

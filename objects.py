@@ -94,11 +94,12 @@ class GameBoard:
             if self.board[y][x] is None:
                 self.board[y][x] = Enemy()
 
-        for _ in range(12):
+        while(True):
             y = random.randint(0,10)
             x = random.randint(0,19)
             if self.board[y][x] is None:
                 self.board[y][x] = GameObject('portal')
+                break
 
     def draw_map(self):
         for row in self.board:
