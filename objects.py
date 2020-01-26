@@ -6,7 +6,7 @@ import random
 
 
 class GameObject:
-    def __init__(self, _type):
+    def __init__(self, _type: str):
         '''
             types:
                 wall, boardend, enemy
@@ -28,8 +28,10 @@ class Wall(GameObject):
 
 
 class Enemy(GameObject):
-    def __init__(self):
-        super('enemy')
+    def __init__(self, hp=100, dmg=10):
+        super().__init__('enemy')
+        self.hp = hp
+        self.dmg = dmg
 
 
 class GameBoard:
@@ -61,7 +63,7 @@ class GameBoard:
     def generate_board(self):
         for i in range(self.height):
             self.board.append([Wall() for _ in range(self.width)]) 
-        x, y = 6, 6
+        x, y = Player.player.x, Player.player.y 
         self.board[y][x] = None
         for i in range(70):
             direction = random.randint(0,4)
@@ -86,6 +88,18 @@ class GameBoard:
                     self.board[y-2][x] = None
                     y-=2
 
+        for _ in range(12):
+            y = random.randint(0,10)
+            x = random.randint(0,19)
+            if self.board[y][x] is None:
+                self.board[y][x] = Enemy()
+
+        for _ in range(12):
+            y = random.randint(0,10)
+            x = random.randint(0,19)
+            if self.board[y][x] is None:
+                self.board[y][x] = GameObject('portal')
+
     def draw_map(self):
         for row in self.board:
             for x in row:
@@ -93,17 +107,24 @@ class GameBoard:
 
 
 class Player:
-    def __init__(self):
+    def __init__(self, hp=100, dmg=10):
         Player.set_player(self)
         self.x = 6
         self.y = 6
+        self.max_hp = 100
+        self.hp = hp
+        self.dmg = dmg
         self.direction = 0 # where player is looking (% 4)
+        self.last_click = 0 # For fights
+        self.enemy = None # For fights
+        self.is_fighting = False
 
     @classmethod
     def set_player(cls, player):
         cls.player = player
 
 class GameController:
+    lvl = 0
     @classmethod
     def getch(cls):
         file_descriptor = sys.stdin.fileno()
@@ -113,3 +134,11 @@ class GameController:
         # Restore old settings
         termios.tcsetattr(file_descriptor, termios.TCSADRAIN, settings)
         return sign
+
+    @classmethod
+    def next_dungeon(cls):
+        cls.lvl += 1
+        GameBoard()
+        Map()
+        Map.map.tab[Player.player.y][Player.player.x] = ' '
+        GameBoard.board.generate_board()
