@@ -65,6 +65,7 @@ def fight():
             player.hp -= player.enemy.dmg
 
         if player.enemy.hp <= 0:
+            player.enemy.death()
             if player.direction % 4 == 0:
                 GameBoard.board.board[player.y+1][player.x] = None
             elif player.direction % 4 == 1:
@@ -96,6 +97,7 @@ def move(sign: str):
                 Frame.frame_no += 1
             elif GameBoard.board.get_object_at(Player.player.x,
                 Player.player.y + 1).type == 'portal':
+                shop()
                 GameController.next_dungeon()
                 return
         elif Player.player.direction % 4 == 1:
@@ -105,6 +107,7 @@ def move(sign: str):
                 Frame.frame_no += 1
             elif GameBoard.board.get_object_at(Player.player.x - 1,
                 Player.player.y).type == 'portal':
+                shop()
                 GameController.next_dungeon()
                 return
         elif Player.player.direction % 4 == 2:
@@ -114,6 +117,7 @@ def move(sign: str):
                 Frame.frame_no += 1
             elif GameBoard.board.get_object_at(Player.player.x,
                 Player.player.y - 1).type == 'portal':
+                shop()
                 GameController.next_dungeon()
                 return
         elif Player.player.direction % 4 == 3:
@@ -123,6 +127,7 @@ def move(sign: str):
                 Frame.frame_no += 1
             elif GameBoard.board.get_object_at(Player.player.x + 1,
                 Player.player.y).type == 'portal':
+                shop()
                 GameController.next_dungeon()
                 return
     elif sign == 's':
@@ -180,6 +185,42 @@ def move(sign: str):
         Frame.draw_game()
         fight()
 
+def shop():
+    tab = Sprite('shop.txt').tab
+
+    while(True):
+        # GOLD
+        tab[1][73] = '\u001b[33m' + (str)(Player.player.gold % 10)
+        tab[1][72] = '\u001b[33m' + (str)((Player.player.gold // 10) % 10)
+        tab[1][71] = '\u001b[33m' + (str)((Player.player.gold // 100) % 10)
+        player = Player.player
+        tab[3][69] = '\u001b[35m' + (str)(player.hp % 10)
+        tab[3][68] = '\u001b[35m' + (str)((player.hp//10) % 10)
+        tab[3][67] = '\u001b[35m' + (str)((player.hp//100) % 10)
+        tab[3][73] = '\u001b[35m' + (str)(player.max_hp % 10)
+        tab[3][72] = '\u001b[35m' + (str)((player.max_hp//10) % 10)
+        tab[3][71] = '\u001b[35m' + (str)((player.max_hp//100) % 10)
+
+        print('\033[1;1H', end='')
+        for row in tab:
+            for pixel in row:
+                print(pixel, end='') 
+            print('')
+
+        sign = GameController.getch()
+
+        if sign == 'q':
+            return
+        if sign == 'w': # HP potion
+            if Player.player.gold >= 30:
+                Player.player.gold -= 30
+                Player.player.hp += 50
+                if Player.player.hp > Player.player.max_hp:
+                    Player.player.hp = Player.player.max_hp
+        elif sign == 's': # MAX_HP potion
+            if Player.player.gold >= 50:
+                Player.player.gold -= 50
+                Player.player.max_hp += 10
 
 GraphicSet.load_graphic_sets()
 Player()
@@ -191,18 +232,3 @@ with open('./graphics/manual.txt') as file:
     print(file.read())
 GameController.getch()
 game_loop()
-
-'''import time
-
-w, h = 70, 40
-
-for i in range(1000):
-    tab = [[i % 10 for _ in range(w)] for _ in range(h)]
-    print('\u001b[{}m'.format(i % 40))
-    print('\033[1;1H', end='')
-    for row in tab:
-        for pixel in row:
-            print(pixel, end='')
-        print('')
-    time.sleep(0.05)
-'''

@@ -1,7 +1,4 @@
 from graphic import *
-import tty
-import sys
-import termios
 import random
 
 
@@ -32,6 +29,9 @@ class Enemy(GameObject):
         super().__init__('enemy')
         self.hp = hp
         self.dmg = dmg
+
+    def death(self):
+        Player.player.gold += random.randint(0, 10)
 
 
 class GameBoard:
@@ -110,6 +110,7 @@ class GameBoard:
 class Player:
     def __init__(self, hp=100, dmg=10):
         Player.set_player(self)
+        self.gold = 255
         self.x = 6
         self.y = 6
         self.max_hp = 100
@@ -128,13 +129,20 @@ class GameController:
     lvl = 0
     @classmethod
     def getch(cls):
-        file_descriptor = sys.stdin.fileno()
-        settings = termios.tcgetattr(file_descriptor)
-        tty.setraw(file_descriptor)
-        sign = sys.stdin.read(1)# Read one char
-        # Restore old settings
-        termios.tcsetattr(file_descriptor, termios.TCSADRAIN, settings)
-        return sign
+        try: #LINUX
+            import tty
+            import sys
+            import termios
+            file_descriptor = sys.stdin.fileno()
+            settings = termios.tcgetattr(file_descriptor)
+            tty.setraw(file_descriptor)
+            sign = sys.stdin.read(1)# Read one char
+            # Restore old settings
+            termios.tcsetattr(file_descriptor, termios.TCSADRAIN, settings)
+            return sign
+        except ImportError: #WINDOWS
+            import msvcrt
+            return msvcrt.getch()
 
     @classmethod
     def next_dungeon(cls):
@@ -143,3 +151,6 @@ class GameController:
         Map()
         Map.map.tab[Player.player.y][Player.player.x] = ' '
         GameBoard.board.generate_board()
+        Player.player.hp += 10
+        if Player.player.hp >= Player.player.max_hp:
+            Player.player.hp = Player.player.max_hp

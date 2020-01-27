@@ -136,10 +136,9 @@ class Frame:
         for y in range(len(Map.map.tab)):
             for x in range(len(Map.map.tab[y])):
                 tab[1+y][52+x] = Map.map.tab[y][x]
-        player_signs = ('v', '<', '^', '>',)
         Player = objects.Player
         tab[1+Player.player.y][52+Player.player.x] = '\u001b[35m' \
-            + player_signs[Player.player.direction%4]
+            + 'X'
 
         # Show stats
         for x in range((int)((player.hp / player.max_hp) * 21)):
@@ -155,6 +154,11 @@ class Frame:
         tab[20][73] = '\u001b[35m' + (str)(objects.GameController.lvl % 10)
         tab[20][72] = '\u001b[35m' + (str)((objects.GameController.lvl//10) % 10)
         tab[20][71] = '\u001b[35m' + (str)((objects.GameController.lvl//100) % 10)
+
+        # GOLD
+        tab[22][73] = '\u001b[33m' + (str)(Player.player.gold % 10)
+        tab[22][72] = '\u001b[33m' + (str)((Player.player.gold // 10) % 10)
+        tab[22][71] = '\u001b[33m' + (str)((Player.player.gold // 100) % 10)
 
         if bottom is not None:
             for y in range(6):
