@@ -142,7 +142,7 @@ class GameController:
             return sign
         except ImportError: #WINDOWS
             import msvcrt
-            return msvcrt.getch()
+            return msvcrt.getch().decode('unicode_escape')
 
     @classmethod
     def next_dungeon(cls):

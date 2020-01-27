@@ -2,6 +2,12 @@ from objects import *
 from graphic import *
 import time
 import random
+#WINDOWS
+try:
+    import colorama
+    colorama.init()
+except:
+    pass
 
 
 def game_loop():
@@ -228,6 +234,7 @@ GameBoard()
 Map()
 Map.map.tab[Player.player.y][Player.player.x] = ' '
 GameBoard.board.generate_board()
+print('\033[1;1H', end='')
 with open('./graphics/manual.txt') as file:
     print(file.read())
 GameController.getch()
